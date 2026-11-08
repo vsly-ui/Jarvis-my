@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jarvis MY</title>
+
+<style>
+body {
+  background: #080d18;
+  color: #e8f4ff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 25px;
+}
+
+h1 {
+  color: #58c8ff;
+}
+
+.orb {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 35px auto;
+  background: radial-gradient(
+    circle, #7eeaff, #1478d4, #071326
+  );
+  box-shadow: 0 0 40px #168bff;
+}
+
+#chat {
+  text-align: left;
+  min-height: 150px;
+  padding: 15px;
+  border: 1px solid #24435e;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+input, button {
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+}
+
+input {
+  width: 65%;
+}
+
+button {
+  background: #168bff;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>JARVIS MY</h1>
+<p>Personal AI Assistant</p>
+
+<div class="orb"></div>
+
+<div id="chat">
+  <p>Jarvis: Selamat datang. Saya sedia membantu.</p>
+</div>
+
+<input id="msg" placeholder="Berikan arahan..." />
+
+<button onclick="send()">Hantar</button>
+<button onclick="speak()">🎙️ Suara</button>
+
+<script>
+function send() {
+  const input = document.getElementById("msg");
+  const chat = document.getElementById("chat");
+
+  if (!input.value.trim()) return;
+
+  chat.innerHTML +=
+    "<p>Anda: " + input.value + "</p>";
+
+  chat.innerHTML +=
+    "<p>Jarvis: Arahan diterima. AI saya akan dibina seterusnya.</p>";
+
+  input.value = "";
+}
+
+function speak() {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert("Voice input tidak disokong browser ini.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "ms-MY";
+
+  recognition.onresult = function(event) {
+    document.getElementById("msg").value =
+      event.results[0][0].transcript;
+  };
+
+  recognition.start();
+}
+</script>
+
+</body>
+</html>
